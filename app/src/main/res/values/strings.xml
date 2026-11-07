@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MacroFlow</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_macros">Macros</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home -->
+    <string name="home_subtitle">Your personal tap &amp; swipe automation</string>
+    <string name="home_status_label">Automation status</string>
+    <string name="status_idle">Idle</string>
+    <string name="status_starting">Starting…</string>
+    <string name="status_playing">Playing</string>
+    <string name="status_paused">Paused</string>
+    <string name="stat_macros">Total macros</string>
+    <string name="stat_runs">Total executions</string>
+    <string name="stat_success">Successful</string>
+    <string name="stat_failed">Failed</string>
+    <string name="quick_actions">Quick actions</string>
+    <string name="action_manage_macros">Manage macros</string>
+    <string name="recent_activity">Recent activity</string>
+    <string name="recent_empty">No executions yet. Results appear here after a macro runs.</string>
+    <string name="favorites">Favorite macros</string>
+    <string name="favorites_empty">No favorite macros yet. Star a macro to see it here.</string>
+    <string name="exec_status_success">Success</string>
+    <string name="exec_status_failed">Failed</string>
+    <string name="exec_status_stopped">Stopped</string>
+    <string name="exec_row_detail">%1$s · %2$s</string>
+
+    <!-- Floating controller card -->
+    <string name="floating_title">Floating controller</string>
+    <string name="floating_body">A draggable button over other apps to run, pause and stop your macro. Pick its macro from the ⋮ menu of a macro, or from the button itself.</string>
+    <string name="floating_need_acc">Enable the accessibility service first.</string>
+
+    <!-- Accessibility card -->
+    <string name="accessibility_description">MacroFlow uses this service to perform the taps and swipes of your own macros and to show its floating button. It does not read what is on your screen.</string>
+    <string name="acc_title">Accessibility service</string>
+    <string name="acc_why">Needed to perform taps and swipes for your macros and to show the floating button. MacroFlow does not read your screen content.</string>
+    <string name="acc_status_on">Enabled</string>
+    <string name="acc_status_off">Disabled</string>
+    <string name="acc_open">Open accessibility settings</string>
+    <string name="acc_tip">If Android says “Restricted setting”: open App info for MacroFlow, tap the ⋮ menu, choose “Allow restricted settings”, then try again.</string>
+
+    <!-- Macros -->
+    <string name="macros_title">Macros</string>
+    <string name="macros_search">Search macros</string>
+    <string name="macros_empty_title">No macros yet</string>
+    <string name="macros_empty_body">Tap New macro to create your first one.</string>
+    <string name="macros_no_results">No macros match your search</string>
+    <string name="macro_new">New macro</string>
+    <string name="macro_edit">Rename macro</string>
+    <string name="macro_name">Name</string>
+    <string name="macro_description">Description</string>
+    <string name="macro_actions_count">Actions: %1$d</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="delete_macro_title">Delete macro?</string>
+    <string name="delete_macro_message">“%1$s” and its actions will be permanently deleted.</string>
+    <string name="error_name_empty">Please enter a name</string>
+    <string name="error_name_long">Name is too long (max %1$d characters)</string>
+    <string name="error_desc_long">Description is too long (max %1$d characters)</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="cd_favorite">Toggle favorite</string>
+    <string name="cd_run">Run</string>
+    <string name="cd_more">More options</string>
+    <string name="menu_edit_actions">Edit actions</string>
+    <string name="menu_use_floating">Use in floating controller</string>
+    <string name="menu_floating_selected">Floating controller macro ✓</string>
+
+    <!-- Run dialog -->
+    <string name="run_title">Run macro</string>
+    <string name="run_repeat">Repeat count (1–999)</string>
+    <string name="run_delay">Start delay in seconds (0–30)</string>
+    <string name="run_start">Start</string>
+    <string name="run_hint">MacroFlow goes to the background when the delay is above 0. Open the target app before it ends. Use the Stop button on the bar or the floating button to stop.</string>
+    <string name="error_run_invalid">Enter valid numbers</string>
+
+    <!-- Player bar and errors -->
+    <string name="player_bar_starting">Starting “%1$s”…</string>
+    <string name="player_bar_running">%1$s · step %2$d/%3$d · round %4$d/%5$d</string>
+    <string name="cd_pause">Pause</string>
+    <string name="cd_resume">Resume</string>
+    <string name="cd_stop">Stop</string>
+    <string name="err_no_acc">Enable the MacroFlow accessibility service first.</string>
+    <string name="err_not_found">Macro not found.</string>
+    <string name="err_empty">This macro has no enabled actions.</string>
+    <string name="err_invalid">This macro has an invalid action. Check it in the editor.</string>
+    <string name="err_gesture">Android rejected a tap or swipe, so the run was stopped.</string>
+    <string name="err_time_limit">Stopped: reached the 30-minute safety limit.</string>
+    <string name="err_busy">A macro is already running.</string>
+
+    <!-- Editor -->
+    <string name="editor_empty_title">No actions yet</string>
+    <string name="editor_empty_body">Tap Add action, or press Record and perform the steps in another app.</string>
+    <string name="action_add">Add action</string>
+    <string name="action_edit">Edit action</string>
+    <string name="action_duplicate">Duplicate</string>
+    <string name="type_tap">Tap</string>
+    <string name="type_long">Long press</string>
+    <string name="type_swipe">Swipe</string>
+    <string name="type_delay">Delay</string>
+    <string name="field_x">X position (0–100)</string>
+    <string name="field_y">Y position (0–100)</string>
+    <string name="field_end_x">End X (0–100)</string>
+    <string name="field_end_y">End Y (0–100)</string>
+    <string name="field_duration">Duration (ms)</string>
+    <string name="field_wait">Wait before (ms)</string>
+    <string name="field_repeat">Repeat</string>
+    <string name="field_enabled">Enabled</string>
+    <string name="error_action_invalid">Check the values: positions 0–100, times in milliseconds, repeat 1–999.</string>
+    <string name="summary_tap">Tap (%1$d%%, %2$d%%)</string>
+    <string name="summary_long">Long press (%1$d%%, %2$d%%) · %3$d ms</string>
+    <string name="summary_swipe">Swipe (%1$d%%, %2$d%%) → (%3$d%%, %4$d%%) · %5$d ms</string>
+    <string name="summary_delay">Wait %1$d ms</string>
+    <string name="summary_meta">Before: %1$d ms · ×%2$d</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_record">Record</string>
+    <string name="cd_move_up">Move up</string>
+    <string name="cd_move_down">Move down</string>
+    <string name="cd_edit_action">Edit action</string>
+
+    <!-- Floating button and recorder (drawn over other apps) -->
+    <string name="float_run">▶ Run: %1$s</string>
+    <string name="float_no_macro">No macro selected</string>
+    <string name="float_pause">⏸ Pause</string>
+    <string name="float_resume">▶ Resume</string>
+    <string name="float_stop">■ Stop</string>
+    <string name="float_select">Select macro…</string>
+    <string name="float_select_title">Select macro</string>
+    <string name="float_none">No macros yet</string>
+    <string name="float_hide">Hide button</string>
+    <string name="float_back">‹ Back</string>
+    <string name="rec_label">● REC %1$d</string>
+    <string name="rec_stop">Stop &amp; save</string>
+    <string name="rec_cancel">Cancel</string>
+    <string name="rec_saved">Saved %1$d actions. Open MacroFlow to edit them.</string>
+    <string name="rec_none">Nothing was recorded.</string>
+    <string name="rec_busy">Stop the running macro before recording.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_theme">Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow system</string>
+    <string name="settings_permissions">Permissions</string>
+    <string name="settings_data">Data</string>
+    <string name="settings_clear_history">Clear execution history</string>
+    <string name="clear_history_title">Clear history?</string>
+    <string name="clear_history_message">All execution history will be permanently deleted. Macros are not affected.</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version %1$s</string>
+</resources>

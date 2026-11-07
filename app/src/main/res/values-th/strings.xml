@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MacroFlow</string>
+
+    <string name="nav_home">หน้าหลัก</string>
+    <string name="nav_macros">แมโคร</string>
+    <string name="nav_settings">ตั้งค่า</string>
+
+    <!-- Home -->
+    <string name="home_subtitle">ระบบแตะและปัดอัตโนมัติสำหรับใช้เอง</string>
+    <string name="home_status_label">สถานะ Automation</string>
+    <string name="status_idle">ว่าง</string>
+    <string name="status_starting">กำลังเริ่ม…</string>
+    <string name="status_playing">กำลังเล่น</string>
+    <string name="status_paused">หยุดชั่วคราว</string>
+    <string name="stat_macros">แมโครทั้งหมด</string>
+    <string name="stat_runs">การรันทั้งหมด</string>
+    <string name="stat_success">สำเร็จ</string>
+    <string name="stat_failed">ล้มเหลว</string>
+    <string name="quick_actions">ทางลัด</string>
+    <string name="action_manage_macros">จัดการแมโคร</string>
+    <string name="recent_activity">กิจกรรมล่าสุด</string>
+    <string name="recent_empty">ยังไม่มีการรัน ผลลัพธ์จะแสดงที่นี่หลังจากรันแมโคร</string>
+    <string name="favorites">แมโครโปรด</string>
+    <string name="favorites_empty">ยังไม่มีแมโครโปรด กดดาวที่แมโครเพื่อแสดงที่นี่</string>
+    <string name="exec_status_success">สำเร็จ</string>
+    <string name="exec_status_failed">ล้มเหลว</string>
+    <string name="exec_status_stopped">หยุดแล้ว</string>
+    <string name="exec_row_detail">%1$s · %2$s</string>
+
+    <!-- Floating controller card -->
+    <string name="floating_title">ปุ่มลอยควบคุม</string>
+    <string name="floating_body">ปุ่มที่ลากได้ลอยเหนือแอปอื่น ใช้รัน หยุดชั่วคราว และหยุดแมโคร เลือกแมโครจากเมนู ⋮ ของแมโคร หรือจากปุ่มลอยเองก็ได้</string>
+    <string name="floating_need_acc">ต้องเปิด Accessibility Service ก่อน</string>
+
+    <!-- Accessibility card -->
+    <string name="accessibility_description">MacroFlow ใช้บริการนี้เพื่อทำการแตะและปัดตามแมโครของคุณเอง และแสดงปุ่มลอย โดยไม่อ่านสิ่งที่อยู่บนหน้าจอ</string>
+    <string name="acc_title">Accessibility Service</string>
+    <string name="acc_why">จำเป็นสำหรับการแตะและปัดตามแมโครและแสดงปุ่มลอย MacroFlow ไม่อ่านเนื้อหาบนหน้าจอของคุณ</string>
+    <string name="acc_status_on">เปิดอยู่</string>
+    <string name="acc_status_off">ปิดอยู่</string>
+    <string name="acc_open">เปิดหน้าตั้งค่า Accessibility</string>
+    <string name="acc_tip">ถ้า Android ขึ้นว่า “การตั้งค่าที่ถูกจำกัด”: เปิดข้อมูลแอป MacroFlow แตะเมนู ⋮ เลือก “อนุญาตการตั้งค่าที่ถูกจำกัด” แล้วลองใหม่</string>
+
+    <!-- Macros -->
+    <string name="macros_title">แมโคร</string>
+    <string name="macros_search">ค้นหาแมโคร</string>
+    <string name="macros_empty_title">ยังไม่มีแมโคร</string>
+    <string name="macros_empty_body">กด “แมโครใหม่” เพื่อสร้างแมโครแรกของคุณ</string>
+    <string name="macros_no_results">ไม่พบแมโครที่ตรงกับการค้นหา</string>
+    <string name="macro_new">แมโครใหม่</string>
+    <string name="macro_edit">เปลี่ยนชื่อแมโคร</string>
+    <string name="macro_name">ชื่อ</string>
+    <string name="macro_description">คำอธิบาย</string>
+    <string name="macro_actions_count">จำนวน Action: %1$d</string>
+    <string name="action_save">บันทึก</string>
+    <string name="action_cancel">ยกเลิก</string>
+    <string name="action_delete">ลบ</string>
+    <string name="delete_macro_title">ลบแมโคร?</string>
+    <string name="delete_macro_message">“%1$s” และ Action ทั้งหมดจะถูกลบถาวร</string>
+    <string name="error_name_empty">กรุณากรอกชื่อ</string>
+    <string name="error_name_long">ชื่อยาวเกินไป (สูงสุด %1$d ตัวอักษร)</string>
+    <string name="error_desc_long">คำอธิบายยาวเกินไป (สูงสุด %1$d ตัวอักษร)</string>
+    <string name="error_generic">เกิดข้อผิดพลาด กรุณาลองอีกครั้ง</string>
+    <string name="cd_favorite">สลับรายการโปรด</string>
+    <string name="cd_run">รัน</string>
+    <string name="cd_more">ตัวเลือกเพิ่มเติม</string>
+    <string name="menu_edit_actions">แก้ไข Action</string>
+    <string name="menu_use_floating">ใช้กับปุ่มลอย</string>
+    <string name="menu_floating_selected">แมโครของปุ่มลอย ✓</string>
+
+    <!-- Run dialog -->
+    <string name="run_title">รันแมโคร</string>
+    <string name="run_repeat">จำนวนรอบ (1–999)</string>
+    <string name="run_delay">หน่วงก่อนเริ่ม เป็นวินาที (0–30)</string>
+    <string name="run_start">เริ่ม</string>
+    <string name="run_hint">ถ้าหน่วงมากกว่า 0 MacroFlow จะไปอยู่เบื้องหลัง ให้เปิดแอปเป้าหมายก่อนหมดเวลา หยุดได้ที่ปุ่ม Stop บนแถบหรือปุ่มลอย</string>
+    <string name="error_run_invalid">กรอกตัวเลขให้ถูกต้อง</string>
+
+    <!-- Player bar and errors -->
+    <string name="player_bar_starting">กำลังเริ่ม “%1$s”…</string>
+    <string name="player_bar_running">%1$s · ขั้นที่ %2$d/%3$d · รอบ %4$d/%5$d</string>
+    <string name="cd_pause">หยุดชั่วคราว</string>
+    <string name="cd_resume">เล่นต่อ</string>
+    <string name="cd_stop">หยุด</string>
+    <string name="err_no_acc">ต้องเปิด Accessibility Service ของ MacroFlow ก่อน</string>
+    <string name="err_not_found">ไม่พบแมโคร</string>
+    <string name="err_empty">แมโครนี้ไม่มี Action ที่เปิดใช้งาน</string>
+    <string name="err_invalid">แมโครนี้มี Action ที่ไม่ถูกต้อง ตรวจสอบในตัวแก้ไข</string>
+    <string name="err_gesture">Android ปฏิเสธการแตะหรือปัด จึงหยุดการรัน</string>
+    <string name="err_time_limit">หยุดแล้ว: ถึงขีดจำกัดความปลอดภัย 30 นาที</string>
+    <string name="err_busy">มีแมโครกำลังรันอยู่แล้ว</string>
+
+    <!-- Editor -->
+    <string name="editor_empty_title">ยังไม่มี Action</string>
+    <string name="editor_empty_body">กด “เพิ่ม Action” หรือกดอัดแล้วทำขั้นตอนในแอปอื่น</string>
+    <string name="action_add">เพิ่ม Action</string>
+    <string name="action_edit">แก้ไข Action</string>
+    <string name="action_duplicate">ทำซ้ำ</string>
+    <string name="type_tap">แตะ</string>
+    <string name="type_long">กดค้าง</string>
+    <string name="type_swipe">ปัด</string>
+    <string name="type_delay">หน่วงเวลา</string>
+    <string name="field_x">ตำแหน่ง X (0–100)</string>
+    <string name="field_y">ตำแหน่ง Y (0–100)</string>
+    <string name="field_end_x">X ปลายทาง (0–100)</string>
+    <string name="field_end_y">Y ปลายทาง (0–100)</string>
+    <string name="field_duration">ระยะเวลา (มิลลิวินาที)</string>
+    <string name="field_wait">รอก่อนทำ (มิลลิวินาที)</string>
+    <string name="field_repeat">ทำซ้ำ</string>
+    <string name="field_enabled">เปิดใช้งาน</string>
+    <string name="error_action_invalid">ตรวจสอบค่า: ตำแหน่ง 0–100, เวลาเป็นมิลลิวินาที, ทำซ้ำ 1–999</string>
+    <string name="summary_tap">แตะ (%1$d%%, %2$d%%)</string>
+    <string name="summary_long">กดค้าง (%1$d%%, %2$d%%) · %3$d ms</string>
+    <string name="summary_swipe">ปัด (%1$d%%, %2$d%%) → (%3$d%%, %4$d%%) · %5$d ms</string>
+    <string name="summary_delay">รอ %1$d ms</string>
+    <string name="summary_meta">รอก่อน: %1$d ms · ×%2$d</string>
+    <string name="cd_back">กลับ</string>
+    <string name="cd_record">อัด</string>
+    <string name="cd_move_up">เลื่อนขึ้น</string>
+    <string name="cd_move_down">เลื่อนลง</string>
+    <string name="cd_edit_action">แก้ไข Action</string>
+
+    <!-- Floating button and recorder (drawn over other apps) -->
+    <string name="float_run">▶ รัน: %1$s</string>
+    <string name="float_no_macro">ยังไม่ได้เลือกแมโคร</string>
+    <string name="float_pause">⏸ หยุดชั่วคราว</string>
+    <string name="float_resume">▶ เล่นต่อ</string>
+    <string name="float_stop">■ หยุด</string>
+    <string name="float_select">เลือกแมโคร…</string>
+    <string name="float_select_title">เลือกแมโคร</string>
+    <string name="float_none">ยังไม่มีแมโคร</string>
+    <string name="float_hide">ซ่อนปุ่ม</string>
+    <string name="float_back">‹ กลับ</string>
+    <string name="rec_label">● อัด %1$d</string>
+    <string name="rec_stop">หยุดและบันทึก</string>
+    <string name="rec_cancel">ยกเลิก</string>
+    <string name="rec_saved">บันทึก %1$d Action แล้ว เปิด MacroFlow เพื่อแก้ไข</string>
+    <string name="rec_none">ยังไม่ได้อัดอะไร</string>
+    <string name="rec_busy">หยุดแมโครที่กำลังรันก่อนอัด</string>
+
+    <!-- Settings -->
+    <string name="settings_title">ตั้งค่า</string>
+    <string name="settings_theme">ธีม</string>
+    <string name="theme_dark">มืด</string>
+    <string name="theme_light">สว่าง</string>
+    <string name="theme_system">ตามระบบ</string>
+    <string name="settings_permissions">สิทธิ์การใช้งาน</string>
+    <string name="settings_data">ข้อมูล</string>
+    <string name="settings_clear_history">ล้างประวัติการรัน</string>
+    <string name="clear_history_title">ล้างประวัติ?</string>
+    <string name="clear_history_message">ประวัติการรันทั้งหมดจะถูกลบถาวร แมโครจะไม่ได้รับผลกระทบ</string>
+    <string name="settings_about">เกี่ยวกับ</string>
+    <string name="settings_version">เวอร์ชัน %1$s</string>
+</resources>
