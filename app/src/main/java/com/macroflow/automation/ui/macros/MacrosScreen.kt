@@ -33,6 +33,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -342,7 +343,7 @@ private fun EditMacroDialog(
 @Composable
 private fun RunDialog(
     state: RunDialogState,
-    onChange: (String, String) -> Unit,
+    onChange: (String, String, Boolean) -> Unit,
     onStart: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -356,10 +357,22 @@ private fun RunDialog(
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.run_loop),
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Switch(
+                        checked = state.loop,
+                        onCheckedChange = { onChange(state.repeat, state.delaySec, it) },
+                    )
+                }
                 OutlinedTextField(
                     value = state.repeat,
-                    onValueChange = { onChange(it, state.delaySec) },
+                    onValueChange = { onChange(it, state.delaySec, state.loop) },
                     label = { Text(stringResource(R.string.run_repeat)) },
+                    enabled = !state.loop,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = state.hasError,
@@ -367,7 +380,7 @@ private fun RunDialog(
                 )
                 OutlinedTextField(
                     value = state.delaySec,
-                    onValueChange = { onChange(state.repeat, it) },
+                    onValueChange = { onChange(state.repeat, it, state.loop) },
                     label = { Text(stringResource(R.string.run_delay)) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

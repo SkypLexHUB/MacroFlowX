@@ -1,21 +1,17 @@
 package com.macroflow.automation.service
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PixelFormat
-import android.graphics.drawable.GradientDrawable
 import android.os.SystemClock
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import com.macroflow.automation.R
 import com.macroflow.automation.domain.model.ActionType
 import com.macroflow.automation.domain.model.MacroAction
 import com.macroflow.automation.engine.ScreenSize
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,13 +20,16 @@ import kotlin.math.hypot
 /**
  * Records taps, long presses and swipes. A transparent layer captures each gesture, stores it,
  * then replays it to the app underneath so the app keeps responding while you record.
- * Pauses between gestures are stored as "wait before" values.
+ * Pauses between gestures are stored as "wait before" values. The controls (stop) live in the
+ * floating bar, which [MacroAccessibilityService] keeps above this layer.
  */
 class RecorderOverlay(
     private val service: MacroAccessibilityService,
     private val scope: CoroutineScope,
     private val deps: ServiceEntryPoint,
     private val macroId: Long,
+    private val onCount: (Int) -> Unit,
+    private val onSaved: (Long) -> Unit,
     private val onFinished: () -> Unit,
 ) {
     private val wm = service.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -38,8 +37,6 @@ class RecorderOverlay(
 
     private var captureView: View? = null
     private var captureParams: WindowManager.LayoutParams? = null
-    private var barView: LinearLayout? = null
-    private var counter: TextView? = null
 
     private val recorded = mutableListOf<MacroAction>()
     private var lastEnd = 0L
@@ -60,7 +57,7 @@ class RecorderOverlay(
                 true
             }
         }
-        val captureLp = WindowManager.LayoutParams(
+        val lp = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
@@ -69,57 +66,15 @@ class RecorderOverlay(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT,
         )
-
-        val count = TextView(service).apply {
-            setTextColor(Color.WHITE)
-            textSize = 14f
-            setPadding(dp(10), dp(8), dp(10), dp(8))
-            text = service.getString(R.string.rec_label, 0)
-        }
-        val bar = LinearLayout(service).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            background = GradientDrawable().apply {
-                cornerRadius = dp(22).toFloat()
-                setColor(BAR_BG)
-            }
-            setPadding(dp(8), dp(2), dp(8), dp(2))
-            addView(count)
-            addView(button(service.getString(R.string.rec_stop)) { finish(save = true) })
-            addView(button(service.getString(R.string.rec_cancel)) { finish(save = false) })
-        }
-        val barLp = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            PixelFormat.TRANSLUCENT,
-        ).apply {
-            gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-            y = dp(48)
-        }
-
         return try {
-            wm.addView(capture, captureLp)
-            wm.addView(bar, barLp)
+            wm.addView(capture, lp)
             captureView = capture
-            captureParams = captureLp
-            barView = bar
-            counter = count
+            captureParams = lp
             lastEnd = SystemClock.uptimeMillis()
             true
         } catch (e: Exception) {
-            removeViews()
             false
         }
-    }
-
-    private fun button(text: String, onClick: () -> Unit) = TextView(service).apply {
-        this.text = text
-        setTextColor(Color.WHITE)
-        textSize = 14f
-        setPadding(dp(12), dp(8), dp(12), dp(8))
-        setOnClickListener { onClick() }
     }
 
     private fun handleTouch(e: MotionEvent) {
@@ -161,17 +116,14 @@ class RecorderOverlay(
             delayMs = if (recorded.isEmpty()) 0 else (t1 - lastEnd).coerceIn(0L, 60_000L),
         )
         recorded.add(action)
-        counter?.text = service.getString(R.string.rec_label, recorded.size)
+        onCount(recorded.size)
 
         // Let the touch through to the app underneath by replaying the gesture.
         busy = true
         setCaptureTouchable(false)
         scope.launch {
             delay(REPLAY_SETTLE_MS)
-            val replayDuration = when (type) {
-                ActionType.TAP -> 50L
-                else -> duration.coerceIn(100L, 10_000L)
-            }
+            val replayDuration = if (type == ActionType.TAP) 50L else duration.coerceIn(100L, 10_000L)
             service.gesture(x1, y1, if (isSwipe) x2 else null, if (isSwipe) y2 else null, replayDuration)
             setCaptureTouchable(true)
             lastEnd = SystemClock.uptimeMillis()
@@ -194,17 +146,13 @@ class RecorderOverlay(
     }
 
     private fun removeViews() {
-        listOf(captureView, barView).forEach { v ->
-            if (v != null) {
-                try {
-                    wm.removeView(v)
-                } catch (_: Exception) {
-                }
+        captureView?.let {
+            try {
+                wm.removeView(it)
+            } catch (_: Exception) {
             }
         }
         captureView = null
-        barView = null
-        counter = null
     }
 
     /** Ends the session. With [save] the recorded gestures are appended to the macro. */
@@ -219,6 +167,9 @@ class RecorderOverlay(
                 try {
                     deps.macros().appendActions(macroId, toSave)
                     toast(service.getString(R.string.rec_saved, toSave.size))
+                    onSaved(macroId)
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     toast(service.getString(R.string.error_generic))
                 }
@@ -239,6 +190,5 @@ class RecorderOverlay(
         const val SWIPE_THRESHOLD_DP = 24
         const val REPLAY_SETTLE_MS = 80L
         val CAPTURE_TINT = 0x22FF3B30
-        val BAR_BG = 0xF2B3261E.toInt()
     }
 }

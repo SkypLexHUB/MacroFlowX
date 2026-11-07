@@ -33,6 +33,7 @@ data class RunDialogState(
     val macro: Macro,
     val repeat: String = "1",
     val delaySec: String = "3",
+    val loop: Boolean = false,
     val hasError: Boolean = false,
 )
 
@@ -139,15 +140,15 @@ class MacrosViewModel @Inject constructor(
 
     fun openRun(macro: Macro) = local.update { it.copy(runDialog = RunDialogState(macro)) }
 
-    fun onRunChange(repeat: String, delaySec: String) = local.update {
-        it.copy(runDialog = it.runDialog?.copy(repeat = repeat, delaySec = delaySec, hasError = false))
+    fun onRunChange(repeat: String, delaySec: String, loop: Boolean) = local.update {
+        it.copy(runDialog = it.runDialog?.copy(repeat = repeat, delaySec = delaySec, loop = loop, hasError = false))
     }
 
     fun dismissRun() = local.update { it.copy(runDialog = null) }
 
     fun confirmRun() {
         val dialog = local.value.runDialog ?: return
-        val repeat = dialog.repeat.trim().toIntOrNull()
+        val repeat = if (dialog.loop) 1 else dialog.repeat.trim().toIntOrNull()
         val delaySec = dialog.delaySec.trim().toIntOrNull()
         if (repeat == null || delaySec == null ||
             repeat !in 1..MacroPlayer.MAX_REPEAT || delaySec !in 0..MacroPlayer.MAX_START_DELAY_SEC
@@ -156,7 +157,7 @@ class MacrosViewModel @Inject constructor(
             return
         }
         local.update { it.copy(runDialog = null) }
-        player.start(dialog.macro.id, repeat, delaySec)
+        player.start(dialog.macro.id, repeat, delaySec, loopForever = dialog.loop)
         val accepted = player.state.value.error == null
         if (accepted && delaySec > 0 && MacroAccessibilityService.connected.value) {
             _moveToBack.tryEmit(Unit)

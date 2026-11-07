@@ -44,6 +44,14 @@ fun PlayerBar(
             Text(
                 text = if (state.status == PlayerStatus.STARTING) {
                     stringResource(R.string.player_bar_starting, state.macroName)
+                } else if (state.loopForever) {
+                    stringResource(
+                        R.string.player_bar_looping,
+                        state.macroName,
+                        state.currentStep,
+                        state.totalSteps,
+                        state.loop,
+                    )
                 } else {
                     stringResource(
                         R.string.player_bar_running,

@@ -35,6 +35,7 @@ import com.macroflow.automation.ui.navigation.Destination
 import com.macroflow.automation.ui.navigation.Routes
 import com.macroflow.automation.ui.player.PlayerBar
 import com.macroflow.automation.ui.player.PlayerViewModel
+import com.macroflow.automation.ui.player.messageRes
 import com.macroflow.automation.ui.settings.SettingsScreen
 
 @Composable
@@ -46,7 +47,7 @@ fun MacroFlowRoot(playerViewModel: PlayerViewModel = hiltViewModel()) {
 
     val playerState by playerViewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    val errorMessages = PlayerError.values().associateWith { stringResource(errorRes(it)) }
+    val errorMessages = PlayerError.values().associateWith { stringResource(it.messageRes()) }
 
     LaunchedEffect(playerState.error) {
         val error = playerState.error
@@ -101,16 +102,6 @@ fun MacroFlowRoot(playerViewModel: PlayerViewModel = hiltViewModel()) {
             }
         }
     }
-}
-
-private fun errorRes(error: PlayerError): Int = when (error) {
-    PlayerError.NO_ACCESSIBILITY -> R.string.err_no_acc
-    PlayerError.MACRO_NOT_FOUND -> R.string.err_not_found
-    PlayerError.EMPTY_MACRO -> R.string.err_empty
-    PlayerError.INVALID_ACTION -> R.string.err_invalid
-    PlayerError.GESTURE_FAILED -> R.string.err_gesture
-    PlayerError.TIME_LIMIT -> R.string.err_time_limit
-    PlayerError.ALREADY_RUNNING -> R.string.err_busy
 }
 
 private fun NavController.navigateToTab(route: String) {

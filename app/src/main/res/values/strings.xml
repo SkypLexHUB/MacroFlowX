@@ -30,7 +30,7 @@
 
     <!-- Floating controller card -->
     <string name="floating_title">Floating controller</string>
-    <string name="floating_body">A draggable button over other apps to run, pause and stop your macro. Pick its macro from the ⋮ menu of a macro, or from the button itself.</string>
+    <string name="floating_body">A bar over other apps: Record, Play, Stop, choose a macro, Auto (play right after recording) and Loop (repeat until stopped). Tap the round M to collapse it, drag it to move.</string>
     <string name="floating_need_acc">Enable the accessibility service first.</string>
 
     <!-- Accessibility card -->
@@ -122,19 +122,6 @@
     <string name="cd_edit_action">Edit action</string>
 
     <!-- Floating button and recorder (drawn over other apps) -->
-    <string name="float_run">▶ Run: %1$s</string>
-    <string name="float_no_macro">No macro selected</string>
-    <string name="float_pause">⏸ Pause</string>
-    <string name="float_resume">▶ Resume</string>
-    <string name="float_stop">■ Stop</string>
-    <string name="float_select">Select macro…</string>
-    <string name="float_select_title">Select macro</string>
-    <string name="float_none">No macros yet</string>
-    <string name="float_hide">Hide button</string>
-    <string name="float_back">‹ Back</string>
-    <string name="rec_label">● REC %1$d</string>
-    <string name="rec_stop">Stop &amp; save</string>
-    <string name="rec_cancel">Cancel</string>
     <string name="rec_saved">Saved %1$d actions. Open MacroFlow to edit them.</string>
     <string name="rec_none">Nothing was recorded.</string>
     <string name="rec_busy">Stop the running macro before recording.</string>
@@ -152,4 +139,18 @@
     <string name="clear_history_message">All execution history will be permanently deleted. Macros are not affected.</string>
     <string name="settings_about">About</string>
     <string name="settings_version">Version %1$s</string>
+
+    <!-- Floating bar -->
+    <string name="bar_record">Record</string>
+    <string name="bar_play">Play</string>
+    <string name="bar_stop">Stop</string>
+    <string name="bar_select">Select macro</string>
+    <string name="bar_auto">Auto</string>
+    <string name="bar_loop">Loop</string>
+    <string name="bar_new_macro">+ New macro</string>
+    <string name="bar_pick_first">Select a macro first</string>
+    <string name="bar_none">None</string>
+    <string name="bar_recording">● %1$d</string>
+    <string name="player_bar_looping">%1$s · step %2$d/%3$d · round %4$d ↻</string>
+    <string name="run_loop">Loop until stopped</string>
 </resources>

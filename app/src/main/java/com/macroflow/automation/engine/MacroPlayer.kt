@@ -42,8 +42,11 @@ class MacroPlayer @Inject constructor(
     private val paused = MutableStateFlow(false)
     private var job: Job? = null
 
-    /** Starts a macro. [repeat] is capped to [MAX_REPEAT] and [startDelaySec] to [MAX_START_DELAY_SEC]. */
-    fun start(macroId: Long, repeat: Int = 1, startDelaySec: Int = 0) {
+    /**
+     * Starts a macro. [repeat] is capped to [MAX_REPEAT] and [startDelaySec] to [MAX_START_DELAY_SEC].
+     * With [loopForever] the macro repeats until [stop] is called and the 30-minute limit does not apply.
+     */
+    fun start(macroId: Long, repeat: Int = 1, startDelaySec: Int = 0, loopForever: Boolean = false) {
         synchronized(this) {
             if (_state.value.status != PlayerStatus.IDLE) {
                 _state.update { it.copy(error = PlayerError.ALREADY_RUNNING) }
@@ -60,6 +63,7 @@ class MacroPlayer @Inject constructor(
                     macroId = macroId,
                     repeat = repeat.coerceIn(1, MAX_REPEAT),
                     startDelaySec = startDelaySec.coerceIn(0, MAX_START_DELAY_SEC),
+                    loopForever = loopForever,
                 )
             }
         }
@@ -88,7 +92,7 @@ class MacroPlayer @Inject constructor(
         _state.update { if (it.error != null) it.copy(error = null) else it }
     }
 
-    private suspend fun execute(macroId: Long, repeat: Int, startDelaySec: Int) {
+    private suspend fun execute(macroId: Long, repeat: Int, startDelaySec: Int, loopForever: Boolean) {
         val macro = macros.getMacro(macroId)
         if (macro == null) {
             _state.value = PlayerState(error = PlayerError.MACRO_NOT_FOUND)
@@ -109,7 +113,8 @@ class MacroPlayer @Inject constructor(
             macroId = macroId,
             macroName = macro.name,
             totalSteps = actions.size,
-            loops = repeat,
+            loops = if (loopForever) 0 else repeat,
+            loopForever = loopForever,
         )
         val startedAt = System.currentTimeMillis()
         var playerError: PlayerError? = null
@@ -119,11 +124,12 @@ class MacroPlayer @Inject constructor(
             if (startDelaySec > 0) delay(startDelaySec * 1000L)
             _state.update { it.copy(status = PlayerStatus.PLAYING) }
             val runStart = System.currentTimeMillis()
-            loops@ for (round in 1..repeat) {
+            val rounds = if (loopForever) Int.MAX_VALUE else repeat
+            loops@ for (round in 1..rounds) {
                 _state.update { it.copy(loop = round) }
                 for ((index, action) in actions.withIndex()) {
                     awaitResumed()
-                    if (System.currentTimeMillis() - runStart > MAX_RUN_MS) {
+                    if (!loopForever && System.currentTimeMillis() - runStart > MAX_RUN_MS) {
                         playerError = PlayerError.TIME_LIMIT
                         break@loops
                     }
@@ -138,6 +144,8 @@ class MacroPlayer @Inject constructor(
                     }
                     executed++
                 }
+                // Keeps an endless loop of very short actions from spinning the CPU.
+                if (loopForever) delay(LOOP_GAP_MS)
             }
         } catch (e: CancellationException) {
             throw e
@@ -203,5 +211,6 @@ class MacroPlayer @Inject constructor(
         /** Safety limit for one run, regardless of repeat count. */
         const val MAX_RUN_MS = 30 * 60 * 1000L
         private const val GAP_BETWEEN_REPEATS_MS = 100L
+        private const val LOOP_GAP_MS = 50L
     }
 }

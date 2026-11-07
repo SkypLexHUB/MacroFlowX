@@ -20,6 +20,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
@@ -34,6 +36,11 @@ class MacroAccessibilityService : AccessibilityService() {
     private var deps: ServiceEntryPoint? = null
     private var floating: FloatingController? = null
     private var recorder: RecorderOverlay? = null
+
+    private val _recordingCount = MutableStateFlow<Int?>(null)
+
+    /** Number of gestures recorded so far, or null when no recording is in progress. */
+    val recordingCount: StateFlow<Int?> = _recordingCount.asStateFlow()
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -80,17 +87,45 @@ class MacroAccessibilityService : AccessibilityService() {
             Toast.makeText(this, R.string.rec_busy, Toast.LENGTH_LONG).show()
             return false
         }
-        floating?.setSuspended(true)
-        val overlay = RecorderOverlay(this, serviceScope, entry, macroId) {
-            recorder = null
-            floating?.setSuspended(false)
-        }
-        if (!overlay.start()) {
-            floating?.setSuspended(false)
-            return false
-        }
+        val overlay = RecorderOverlay(
+            service = this,
+            scope = serviceScope,
+            deps = entry,
+            macroId = macroId,
+            onCount = { _recordingCount.value = it },
+            onSaved = { id -> autoPlayAfterRecording(id) },
+            onFinished = {
+                recorder = null
+                _recordingCount.value = null
+            },
+        )
+        if (!overlay.start()) return false
         recorder = overlay
+        _recordingCount.value = 0
+        // The floating bar must stay above the recorder's capture layer so Stop remains tappable.
+        floating?.bringToFront()
         return true
+    }
+
+    /** Ends the recording. With [save] the recorded gestures are added to the macro. */
+    fun stopRecording(save: Boolean) {
+        recorder?.finish(save)
+    }
+
+    private fun autoPlayAfterRecording(macroId: Long) {
+        val entry = deps ?: return
+        val serviceScope = scope ?: return
+        serviceScope.launch {
+            val settings = entry.settings()
+            if (settings.autoPlayAfterRecord.first()) {
+                entry.player().start(
+                    macroId = macroId,
+                    repeat = 1,
+                    startDelaySec = AUTO_PLAY_DELAY_SEC,
+                    loopForever = settings.loopEnabled.first(),
+                )
+            }
+        }
     }
 
     /** Performs one action. Returns false when Android rejected or cancelled the gesture. */
@@ -144,6 +179,7 @@ class MacroAccessibilityService : AccessibilityService() {
     companion object {
         private const val TAP_MS = 50L
         private const val LONG_PRESS_MIN_MS = 600L
+        private const val AUTO_PLAY_DELAY_SEC = 1
 
         private val _instance = MutableStateFlow<MacroAccessibilityService?>(null)
         private val _connected = MutableStateFlow(false)

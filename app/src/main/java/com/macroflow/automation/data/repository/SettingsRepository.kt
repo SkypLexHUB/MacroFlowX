@@ -27,6 +27,8 @@ class SettingsRepository @Inject constructor(
     private val themeKey = stringPreferencesKey("theme_mode")
     private val floatingKey = booleanPreferencesKey("floating_enabled")
     private val selectedMacroKey = longPreferencesKey("floating_macro_id")
+    private val autoPlayKey = booleanPreferencesKey("auto_play_after_record")
+    private val loopKey = booleanPreferencesKey("loop_enabled")
 
     private val data: Flow<Preferences> = context.settingsDataStore.data
         .catch { e -> if (e is IOException) emit(emptyPreferences()) else throw e }
@@ -38,12 +40,26 @@ class SettingsRepository @Inject constructor(
     /** The macro that the floating controller runs. Null when none was chosen. */
     val selectedMacroId: Flow<Long?> = data.map { it[selectedMacroKey] }
 
+    /** When on, a macro starts playing right after a recording is saved. Default on. */
+    val autoPlayAfterRecord: Flow<Boolean> = data.map { it[autoPlayKey] ?: true }
+
+    /** When on, the floating bar plays macros in a loop until stopped. Default off. */
+    val loopEnabled: Flow<Boolean> = data.map { it[loopKey] ?: false }
+
     suspend fun setThemeMode(mode: ThemeMode) {
         context.settingsDataStore.edit { it[themeKey] = mode.name }
     }
 
     suspend fun setFloatingEnabled(enabled: Boolean) {
         context.settingsDataStore.edit { it[floatingKey] = enabled }
+    }
+
+    suspend fun setAutoPlayAfterRecord(enabled: Boolean) {
+        context.settingsDataStore.edit { it[autoPlayKey] = enabled }
+    }
+
+    suspend fun setLoopEnabled(enabled: Boolean) {
+        context.settingsDataStore.edit { it[loopKey] = enabled }
     }
 
     suspend fun setSelectedMacroId(id: Long) {

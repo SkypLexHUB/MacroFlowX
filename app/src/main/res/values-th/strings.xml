@@ -30,7 +30,7 @@
 
     <!-- Floating controller card -->
     <string name="floating_title">ปุ่มลอยควบคุม</string>
-    <string name="floating_body">ปุ่มที่ลากได้ลอยเหนือแอปอื่น ใช้รัน หยุดชั่วคราว และหยุดแมโคร เลือกแมโครจากเมนู ⋮ ของแมโคร หรือจากปุ่มลอยเองก็ได้</string>
+    <string name="floating_body">แถบลอยเหนือแอปอื่น: อัด เล่น หยุด เลือกแมโคร Auto (เล่นทันทีหลังอัดเสร็จ) และวนซ้ำ (จนกว่าจะหยุด) แตะวงกลม M เพื่อย่อ ลากเพื่อย้าย</string>
     <string name="floating_need_acc">ต้องเปิด Accessibility Service ก่อน</string>
 
     <!-- Accessibility card -->
@@ -122,19 +122,6 @@
     <string name="cd_edit_action">แก้ไข Action</string>
 
     <!-- Floating button and recorder (drawn over other apps) -->
-    <string name="float_run">▶ รัน: %1$s</string>
-    <string name="float_no_macro">ยังไม่ได้เลือกแมโคร</string>
-    <string name="float_pause">⏸ หยุดชั่วคราว</string>
-    <string name="float_resume">▶ เล่นต่อ</string>
-    <string name="float_stop">■ หยุด</string>
-    <string name="float_select">เลือกแมโคร…</string>
-    <string name="float_select_title">เลือกแมโคร</string>
-    <string name="float_none">ยังไม่มีแมโคร</string>
-    <string name="float_hide">ซ่อนปุ่ม</string>
-    <string name="float_back">‹ กลับ</string>
-    <string name="rec_label">● อัด %1$d</string>
-    <string name="rec_stop">หยุดและบันทึก</string>
-    <string name="rec_cancel">ยกเลิก</string>
     <string name="rec_saved">บันทึก %1$d Action แล้ว เปิด MacroFlow เพื่อแก้ไข</string>
     <string name="rec_none">ยังไม่ได้อัดอะไร</string>
     <string name="rec_busy">หยุดแมโครที่กำลังรันก่อนอัด</string>
@@ -152,4 +139,18 @@
     <string name="clear_history_message">ประวัติการรันทั้งหมดจะถูกลบถาวร แมโครจะไม่ได้รับผลกระทบ</string>
     <string name="settings_about">เกี่ยวกับ</string>
     <string name="settings_version">เวอร์ชัน %1$s</string>
+
+    <!-- Floating bar -->
+    <string name="bar_record">อัด</string>
+    <string name="bar_play">เล่น</string>
+    <string name="bar_stop">หยุด</string>
+    <string name="bar_select">เลือกแมโคร</string>
+    <string name="bar_auto">Auto</string>
+    <string name="bar_loop">วนซ้ำ</string>
+    <string name="bar_new_macro">+ แมโครใหม่</string>
+    <string name="bar_pick_first">เลือกแมโครก่อน</string>
+    <string name="bar_none">ยังไม่เลือก</string>
+    <string name="bar_recording">● %1$d</string>
+    <string name="player_bar_looping">%1$s · ขั้นที่ %2$d/%3$d · รอบ %4$d ↻</string>
+    <string name="run_loop">วนซ้ำจนกว่าจะหยุด</string>
 </resources>
